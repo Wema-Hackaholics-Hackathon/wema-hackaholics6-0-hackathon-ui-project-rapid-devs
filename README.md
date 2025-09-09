@@ -1,11 +1,11 @@
 # [Project Title]
 
 ## Team Members
-- [Name 1]
-- [Name 2]
-- [Name 3]
-- [Name 4]
-- [Name 5]
+- Campbell David
+- Adetunji peter
+- Abdullahi Abdulmumeen
+- abayomisoyinka
+
 
 ---
 
@@ -20,9 +20,9 @@
 
 ## 🎯 The Problem
 
-*Which "How Might We..." question from the challenge brief are you tackling? Show the format by providing an example below.*
-
-> **Example:** How might we help busy people organize their daily tasks more effectively?
+*Which "How might we enable business agility and innovation by making it easy
+for teams to use the tools they love, while giving the IT and Security teams the visibility and
+control they need to protect the bank?" 
 
 ## ✨ Our Solution
 
