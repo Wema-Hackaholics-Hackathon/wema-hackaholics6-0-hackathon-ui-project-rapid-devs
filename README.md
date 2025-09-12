@@ -1,4 +1,4 @@
-# [Project Title]
+# The Shadow Guard
 
 ## Team Members
 - Campbell David
@@ -20,7 +20,7 @@
 
 ## 🎯 The Problem
 
-*Which "How might we enable business agility and innovation by making it easy
+*Challange six Shadow IT "How might we enable business agility and innovation by making it easy
 for teams to use the tools they love, while giving the IT and Security teams the visibility and
 control they need to protect the bank?" 
 
