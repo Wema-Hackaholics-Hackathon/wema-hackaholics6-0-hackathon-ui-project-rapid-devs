@@ -1,0 +1,106 @@
+[
+  {
+    "domain": "ilovepdf.com",
+    "category": "document_processing",
+    "risk_level": "critical",
+    "risk_score": 95,
+    "methods": ["GET", "POST", "PUT"],
+    "risks": [
+      "Customer PII data exfiltration risk",
+      "Non-compliant with FFIEC CAT requirements",
+      "No SOC2 Type II certification",
+      "Data residency outside approved jurisdictions",
+      "Violates Basel III operational risk framework",
+      "No end-to-end encryption for financial documents",
+      "Third-party data processing without BAA"
+    ],
+    "banking_compliance_violations": [
+      "PCI-DSS Level 1 non-compliance",
+      "GDPR Article 32 violation",
+      "Dodd-Frank Act Section 1073",
+      "GLBA Safeguards Rule"
+    ],
+    "alternatives": [
+      {
+        "name": "Adobe Acrobat DC Enterprise",
+        "description": "Bank-approved PDF solution with E2E encryption",
+        "compliance": ["SOC2", "PCI-DSS", "HIPAA"],
+        "status": "APPROVED"
+      },
+      {
+        "name": "Microsoft 365 GCC High",
+        "description": "Government-grade PDF tools with data residency",
+        "compliance": ["FedRAMP", "FFIEC", "SOC2"],
+        "status": "RECOMMENDED"
+      },
+      {
+        "name": "DocuSign CLM",
+        "description": "Contract lifecycle management with audit trails",
+        "compliance": ["ISO 27001", "SOC2", "eIDAS"],
+        "status": "SECURE"
+      },
+      {
+        "name": "Internal SecurePDF Portal",
+        "description": "Bank's proprietary PDF processor with DLP",
+        "compliance": ["Internal", "Zero-Trust", "DLP"],
+        "status": "MANDATORY"
+      }
+    ],
+    "incident_priority": "P1",
+    "escalation_required": true,
+    "auto_report_to_soc": true,
+    "message": "CRITICAL SECURITY ALERT: This site violates banking regulations for handling confidential financial documents. All access attempts are logged and reported to the Security Operations Center."
+  },
+  {
+    "domain": "foxit.com",
+    "category": "document_processing",
+    "risk_level": "critical",
+    "risk_score": 90,
+    "methods": ["GET", "POST", "PUT"],
+    "risks": [
+      "Unauthorized local file system access",
+      "JavaScript execution vulnerabilities (CVE-2023-XXXX)",
+      "Missing DLP integration for financial data",
+      "Non-vetted third-party plugin ecosystem",
+      "No centralized policy management",
+      "Lacks transaction monitoring capabilities",
+      "Insufficient audit logging for compliance"
+    ],
+    "banking_compliance_violations": [
+      "OCC 2013-29 Third-Party Risk",
+      "Federal Reserve SR 13-19",
+      "FDIC FIL-44-2008",
+      "NYSE Rule 342"
+    ],
+    "alternatives": [
+      {
+        "name": "Adobe Acrobat Reader DC",
+        "description": "Bank-standard PDF viewer with policy controls",
+        "compliance": ["FIPS 140-2", "Common Criteria"],
+        "status": "APPROVED"
+      },
+      {
+        "name": "Microsoft Edge Enterprise",
+        "description": "Managed browser with secure PDF rendering",
+        "compliance": ["ISO 27001", "SOC2"],
+        "status": "APPROVED"
+      },
+      {
+        "name": "Citrix ShareFile",
+        "description": "Virtual PDF viewing with no local storage",
+        "compliance": ["HIPAA", "FINRA", "SOC2"],
+        "status": "SECURE"
+      },
+      {
+        "name": "Bank SecureView",
+        "description": "Zero-trust PDF viewer in isolated container",
+        "compliance": ["Internal", "Air-gapped", "DLP"],
+        "status": "RECOMMENDED"
+      }
+    ],
+    "incident_priority": "P2",
+    "escalation_required": true,
+    "auto_report_to_soc": true,
+    "message": "HIGH RISK: This PDF software lacks required security controls for processing bank documents. Attempted access violates Information Security Policy 7.3.2. This incident has been logged."
+  }
+]

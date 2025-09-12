@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "URL Logger & Display",
+  "version": "1.0",
+  "description": "Logs and displays the current tab URL",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

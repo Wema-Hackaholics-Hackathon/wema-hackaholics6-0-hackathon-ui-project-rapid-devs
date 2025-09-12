@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Risk Assessment - Banking Compliance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 720px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .security-header {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+            padding: 20px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .security-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .domain-name {
+            font-size: 16px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        .content {
+            padding: 30px;
+            min-height: 450px;
+            position: relative;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+        }
+        
+        .stage {
+            display: none;
+            animation: fadeIn 0.6s ease-in;
+        }
+        
+        .stage.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        /* Professional Loader */
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        .loader-ring {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .loader-ring::before,
+        .loader-ring::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+        }
+        
+        .loader-ring::before {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #e0e0e0;
+        }
+        
+        .loader-ring::after {
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top-color: #1e3c72;
+            animation: spin 1.2s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            border-radius: 2px;
+            animation: progress 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            width: 0%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes progress {
+            to { width: 100%; }
+        }
+        
+        .stage-icon {
+            font-size: 48px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .stage-title {
+            font-size: 24px;
+            color: #1e3c72;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+        
+        .stage-description {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        
+        .scan-animation {
+            width: 120px;
+            height: 120px;
+            margin: 30px auto;
+            position: relative;
+        }
+        
+        .scan-animation .scan-box {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #1e3c72;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #2a5298, transparent);
+            animation: scan 2s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        
+        /* Final Stage Styles */
+        .alert-banner {
+            background: #ffebee;
+            border-left: 4px solid #d32f2f;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .alert-icon {
+            font-size: 24px;
+            color: #d32f2f;
+        }
+        
+        .alert-content h3 {
+            color: #d32f2f;
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        .alert-content p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .compliance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 25px 0;
+        }
+        
+        .compliance-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .compliance-item.failed {
+            background: #ffebee;
+            border-color: #ffcdd2;
+        }
+        
+        .compliance-item.failed::before {
+            content: '✕';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #d32f2f;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .compliance-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .compliance-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        
+        .compliance-status {
+            font-size: 13px;
+            color: #d32f2f;
+            font-weight: 500;
+        }
+        
+        .risk-matrix {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .risk-matrix h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .risk-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .risk-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #d32f2f;
+        }
+        
+        .risk-item-icon {
+            font-size: 20px;
+            color: #d32f2f;
+        }
+        
+        .risk-item-content {
+            flex: 1;
+        }
+        
+        .risk-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        
+        .risk-item-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .alternatives-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .alternatives-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .alternatives-header h3 {
+            color: #2e7d32;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .alternative-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .alternative-item {
+            background: white;
+            border: 1px solid #c8e6c9;
+            border-radius: 6px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .alternative-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .alternative-icon {
+            font-size: 24px;
+            color: #2e7d32;
+        }
+        
+        .alternative-content {
+            flex: 1;
+        }
+        
+        .alternative-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        
+        .alternative-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .alternative-badge {
+            background: #2e7d32;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .escalation-footer {
+            background: #f5f5f5;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px 30px;
+            margin-top: 30px;
+            margin-left: -30px;
+            margin-right: -30px;
+            margin-bottom: -30px;
+        }
+        
+        .escalation-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .escalation-info {
+            flex: 1;
+        }
+        
+        .escalation-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .escalation-details {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .ticket-number {
+            background: #1e3c72;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff9800;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .action-button {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-button:hover {
+            background: #2a5298;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 60, 114, 0.3);
+        }
+        
+        .security-notice {
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #e65100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .security-notice-icon {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="security-header">
+            <div class="header-content">
+                <div class="security-badge">
+                    <span>🔒</span>
+                    <span>Banking Security Protocol</span>
+                </div>
+                <h1>Security Risk Assessment</h1>
+                <div class="domain-name" id="domainName">{{DOMAIN}}</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Stage 1: Initial Analysis -->
+            <div class="stage active" id="stage1">
+                <div class="loader-container">
+                    <div class="stage-icon">🔍</div>
+                    <div class="stage-title">Analyzing Security Risk</div>
+                    <div class="loader-ring"></div>
+                    <div class="stage-description">
+                        Verifying domain against banking security policies and compliance requirements...
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stage 2: Compliance Check -->
+            <div class="stage" id="stage2">
+                <div class="loader-container">
+                    <div class="stage-icon pulse">📋</div>
+                    <div class="stage-title">Compliance Verification</div>
+                    <div class="scan-animation">
+                        <div class="scan-box">
+                            <div class="scan-line"></div>
+                        </div>
+                    </div>
+                    <div class="stage-description">
+                        Checking PCI-DSS, SOC2, GDPR, and Basel III compliance requirements...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stage 3: AI Risk Assessment -->
+            <div class="stage" id="stage3">
+                <div class="loader-container">
+                    <div class="stage-icon pulse">🤖</div>
+                    <div class="stage-title">AI Risk Engine Processing</div>
+                    <div class="loader-ring"></div>
+                    <div class="stage-description">
+                        Analyzing data exfiltration risks, document security, and potential regulatory violations...
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stage 4: Final Risk Report -->
+            <div class="stage" id="stage4">
+                <div class="stage-icon">🚫</div>
+                <div class="stage-title">Access Denied - High Security Risk</div>
+                
+                <div class="alert-banner">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <h3>Critical Security Violation Detected</h3>
+                        <p id="riskMessage">This service poses significant risks to banking data security and regulatory compliance.</p>
+                    </div>
+                </div>
+                
+                <div class="compliance-grid">
+                    <div class="compliance-item failed">
+                        <div class="compliance-icon">🏛️</div>
+                        <div class="compliance-label">PCI-DSS</div>
+                        <div class="compliance-status">Non-Compliant</div>
+                    </div>
+                    <div class="compliance-item failed">
+                        <div class="compliance-icon">🔐</div>
+                        <div class="compliance-label">SOC2</div>
+                        <div class="compliance-status">Not Certified</div>
+                    </div>
+                    <div class="compliance-item failed">
+                        <div class="compliance-icon">🇪🇺</div>
+                        <div class="compliance-label">GDPR</div>
+                        <div class="compliance-status">Unknown</div>
+                    </div>
+                    <div class="compliance-item failed">
+                        <div class="compliance-icon">🏦</div>
+                        <div class="compliance-label">Basel III</div>
+                        <div class="compliance-status">Not Aligned</div>
+                    </div>
+                </div>
+                
+                <div class="risk-matrix">
+                    <h3>Identified Security Risks</h3>
+                    <div class="risk-items" id="riskItems">
+                        <!-- Risks will be populated dynamically -->
+                    </div>
+                </div>
+                
+                <div class="alternatives-section">
+                    <div class="alternatives-header">
+                        <span style="font-size: 24px;">✅</span>
+                        <h3>Bank-Approved Alternatives</h3>
+                    </div>
+                    <div class="alternative-list" id="alternativesList">
+                        <!-- Alternatives will be populated dynamically -->
+                    </div>
+                </div>
+                
+                <div class="security-notice">
+                    <div class="security-notice-icon">🔔</div>
+                    <div>All access attempts are logged and monitored in accordance with banking security policies.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="escalation-footer" style="display: none;" id="escalationFooter">
+            <div class="escalation-content">
+                <div class="escalation-info">
+                    <div class="escalation-title">Security Incident Reported</div>
+                    <div class="escalation-details">
+                        <span class="ticket-number" id="ticketNumber">INC-000000</span>
+                        <span class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span>Under Review</span>
+                        </span>
+                        <span>Response Time: 2-4 hours</span>
+                    </div>
+                </div>
+                <button class="action-button" onclick="requestException()">Request Exception</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Domain-specific configurations
+        const domainConfigs = {
+            'ilovepdf.com': {
+                message: 'This online PDF service stores and processes documents on external servers, violating bank data residency policies.',
+                risks: [
+                    {
+                        icon: '📤',
+                        title: 'Customer Data Exfiltration Risk',
+                        desc: 'Uploaded documents may contain sensitive customer information'
+                    },
+                    {
+                        icon: '🌍',
+                        title: 'Data Residency Violation',
+                        desc: 'Files processed on servers outside approved jurisdictions'
+                    },
+                    {
+                        icon: '🔓',
+                        title: 'No End-to-End Encryption',
+                        desc: 'Documents transmitted without banking-grade encryption'
+                    },
+                    {
+                        icon: '📊',
+                        title: 'Audit Trail Gap',
+                        desc: 'Cannot track document access and modifications'
+                    },
+                    {
+                        icon: '⚖️',
+                        title: 'Regulatory Non-Compliance',
+                        desc: 'Violates FFIEC guidelines for third-party services'
+                    }
+                ],
+                alternatives: [
+                    {
+                        name: 'Adobe Acrobat Enterprise',
+                        desc: 'Bank-licensed PDF solution with DLP integration',
+                        badge: 'APPROVED'
+                    },
+                    {
+                        name: 'Microsoft 365 PDF Tools',
+                        desc: 'Integrated with bank SSO and compliance policies',
+                        badge: 'RECOMMENDED'
+                    },
+                    {
+                        name: 'Internal PDF Portal',
+                        desc: 'On-premise solution with full audit capabilities',
+                        badge: 'SECURE'
+                    },
+                    {
+                        name: 'DocuSign CLM',
+                        desc: 'Contract lifecycle management with encryption',
+                        badge: 'COMPLIANT'
+                    }
+                ]
+            },
+            'foxit.com': {
+                message: 'This PDF software lacks enterprise security controls and may expose sensitive financial documents to unauthorized access.',
+                risks: [
+                    {
+                        icon: '💾',
+                        title: 'Local Storage Vulnerability',
+                        desc: 'Caches sensitive documents without encryption'
+                    },
+                    {
+                        icon: '🔌',
+                        title: 'Unauthorized Plugin Risk',
+                        desc: 'Third-party extensions may access banking data'
+                    },
+                    {
+                        icon: '☁️',
+                        title: 'Cloud Sync Security Gap',
+                        desc: 'Automatic sync to unapproved cloud services'
+                    },
+                    {
+                        icon: '🛡️',
+                        title: 'Missing DLP Integration',
+                        desc: 'Cannot enforce data loss prevention policies'
+                    },
+                    {
+                        icon: '📱',
+                        title: 'Mobile Access Risk',
+                        desc: 'Uncontrolled document access on personal devices'
+                    }
+                ],
+                alternatives: [
+                    {
+                        name: 'Adobe Acrobat Reader DC',
+                        desc: 'Enterprise deployment with policy controls',
+                        badge: 'STANDARD'
+                    },
+                    {
+                        name: 'Microsoft Edge PDF',
+                        desc: 'Built-in viewer with security sandbox',
+                        badge: 'INTEGRATED'
+                    },
+                    {
+                        name: 'Citrix Secure PDF',
+                        desc: 'Virtual desktop PDF access',
+                        badge: 'ISOLATED'
+                    },
+                    {
+                        name: 'Bank PDF Viewer',
+                        desc: 'Custom solution with watermarking',
+                        badge: 'INTERNAL'
+                    }
+                ]
+            },
+            'default': {
+                message: 'This service has not been vetted by the Information Security team and may pose risks to bank data.',
+                risks: [
+                    {
+                        icon: '❓',
+                        title: 'Unknown Security Posture',
+                        desc: 'Service has not undergone security assessment'
+                    },
+                    {
+                        icon: '📋',
+                        title: 'No Vendor Agreement',
+                        desc: 'Missing BAA/NDA with the bank'
+                    },
+                    {
+                        icon: '🔍',
+                        title: 'Unverified Compliance',
+                        desc: 'Regulatory compliance status unknown'
+                    }
+                ],
+                alternatives: [
+                    {
+                        name: 'Contact InfoSec Team',
+                        desc: 'Request approved alternative solutions',
+                        badge: 'HELP'
+                    }
+                ]
+            }
+        };
+        
+        // Get domain and configuration
+        const urlParams = new URLSearchParams(window.location.search);
+        const domain = urlParams.get('domain') || '{{DOMAIN}}';
+        document.getElementById('domainName').textContent = domain;
+        
+        // Select appropriate configuration
+        let config = domainConfigs.default;
+        for (let key in domainConfigs) {
+            if (domain.includes(key)) {
+                config = domainConfigs[key];
+                break;
+            }
+        }
+        
+        // Generate incident ticket number
+        const ticketNumber = 'INC-' + Date.now().toString().slice(-8);
+        
+        // Animation sequence
+        let currentStage = 1;
+        const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+        const stageDurations = [3000, 2500, 3500, 0];
+        
+        function showNextStage() {
+            if (currentStage < stages.length) {
+                // Hide current stage
+                document.getElementById(stages[currentStage - 1]).classList.remove('active');
+                
+                // Show next stage
+                document.getElementById(stages[currentStage]).classList.add('active');
+                
+                // Handle final stage
+                if (currentStage === 3) {
+                    setupFinalStage();
+                }
+                
+                currentStage++;
+                
+                // Continue animation
+                if (currentStage <= stages.length && stageDurations[currentStage - 1] > 0) {
+                    setTimeout(showNextStage, stageDurations[currentStage - 1]);
+                }
+            }
+        }
+        
+        function setupFinalStage() {
+            // Set risk message
+            document.getElementById('riskMessage').textContent = config.message;
+            
+            // Populate risks
+            const riskItems = document.getElementById('riskItems');
+            riskItems.innerHTML = config.risks.map(risk => `
+                <div class="risk-item">
+                    <div class="risk-item-icon">${risk.icon}</div>
+                    <div class="risk-item-content">
+                        <div class="risk-item-title">${risk.title}</div>
+                        <div class="risk-item-desc">${risk.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Populate alternatives
+            const altList = document.getElementById('alternativesList');
+            altList.innerHTML = config.alternatives.map(alt => `
+                <div class="alternative-item">
+                    <div class="alternative-icon">✓</div>
+                    <div class="alternative-content">
+                        <div class="alternative-name">${alt.name}</div>
+                        <div class="alternative-desc">${alt.desc}</div>
+                    </div>
+                    <div class="alternative-badge">${alt.badge}</div>
+                </div>
+            `).join('');
+            
+            // Set ticket number
+            document.getElementById('ticketNumber').textContent = ticketNumber;
+            
+            // Show escalation footer
+            setTimeout(() => {
+                document.getElementById('escalationFooter').style.display = 'block';
+            }, 500);
+            
+            // Log the incident (in production, this would be an API call)
+            console.log('Security Incident:', {
+                domain: domain,
+                ticket: ticketNumber,
+                timestamp: new Date().toISOString(),
+                risks: config.risks.length
+            });
+        }
+        
+        function requestException() {
+            const reason = prompt('Please provide business justification for accessing ' + domain + ':');
+            if (reason) {
+                alert('Exception request submitted.\n\nTicket: ' + ticketNumber + 
+                      '\nStatus: Pending approval\nYou will be notified via email within 24-48 hours.\n\n' +
+                      'Note: All exception requests require manager and InfoSec approval.');
+                
+                // Log exception request
+                console.log('Exception Request:', {
+                    ticket: ticketNumber,
+                    domain: domain,
+                    justification: reason,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+        
+        // Start animation sequence
+        setTimeout(showNextStage, stageDurations[0]);
+        
+        // Allow skipping with ESC key (for testing)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && currentStage < 4) {
+                currentStage = 3;
+                showNextStage();
+            }
+        });
+    </script>
+</body>
+</html>
