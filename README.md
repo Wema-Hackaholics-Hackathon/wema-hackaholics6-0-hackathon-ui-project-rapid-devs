@@ -26,22 +26,32 @@ control they need to protect the bank?"
 
 ## ✨ Our Solution
 
-*Provide a short, high-level description of your project. What is your unique idea? What does it do? How does it solve the problem?*
-
-**Example:**
-"Our project, 'TaskMaster,' is a clean and simple to-do list application. It allows users to add tasks, mark them as complete, and sort them by priority. The goal is to provide a straightforward tool to help users stay organized."
+*Shadow Guard solves this by letting employees use the tools they need safely while giving IT full real-time visibility, risk scoring, and control over all browser and cloud activity.*
 
 ---
 
 ## 🛠️ Tech Stack
 
-*List the major technologies, frameworks, and platforms you used to build your project.*
 
-*   **Frontend:** (e.g., React, Next.js, Tailwind CSS)
-*   **Backend:** (e.g., Node.js with Serverless Functions on Vercel)
-*   **Database:** (e.g., PostgreSQL via Supabase)
-*   **Deployment:** (e.g., Vercel)
-*   **AI/APIs:** (e.g., Google Gemini API)
+
+Frontend / Client Layer:
+
+javascript
+
+Chromium-based extension running in the browser.
+
+Background agent: monitors all browser traffic, handles messaging with the backend, and keeps the extension alive.
+
+Service worker: lightweight script running in the background to listen for events, manage caching, and handle asynchronous tasks like risk notifications.
+
+
+Backend: Python with Flask handling API endpoints and orchestration.
+
+Database: SQL (internal relational database for logs, risk scores, and user activity).
+
+Deployment: Cloud-hosted backend services (AWS, GCP, or internal servers).
+
+AI/Models: Custom-trained AI models (internal team) for real-time risk scoring, vulnerability detection, and tool recommendation.
 
 ---
 
