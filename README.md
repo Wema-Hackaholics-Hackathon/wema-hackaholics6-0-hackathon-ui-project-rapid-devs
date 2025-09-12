@@ -13,7 +13,7 @@
 
 *   **Live Application:** [Link to your deployed Vercel/Netlify/Render URL]
 *   **Backend API:** [Link to your live backend API endpoint URL, if separate]
-*   **Recorded Demo:** [Link to your recorded demo explaining how your solution works using Loom].
+*   **Recorded Demo:** https://www.loom.com/share/e977defe60ea4afdb13ce48eac287573?sid=14e52577-37f4-45f5-a107-2f39e40730a9.
 
 
 ---
